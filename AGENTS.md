@@ -21,7 +21,7 @@ src/                     Frontend: Next.js 15 App Router, TypeScript, Tailwind 3
   lib/types.ts           TS types mirroring backend/models/schemas.py
   lib/modules.ts         Page metadata (title, subtitle, icon)
 backend/                 Python 3.12, FastAPI, google-adk
-  main.py config.py      App and settings (env / backend/.env)
+  main.py config.py      App and settings (env / repo-root .env - the only env file)
   api/                   HTTP routes
   agents/                ADK agents (base.py builds them; orchestrator.py routes)
   tools/                 Mock tools: read/modify shared state; all calculations here
@@ -88,7 +88,8 @@ The dev shell is Windows PowerShell: chain with `;` not `&&`; use `-LiteralPath`
 
 ## Don't
 
-- Commit `.env`, `backend/.env`, `node_modules`, `.next`, `backend/.venv`, credentials or real banking data.
+- Commit `.env`, `node_modules`, `.next`, `backend/.venv`, credentials or real banking data.
+- Add more env files (`backend/.env`, `.env.local`, ...). The repo-root `.env` (template `.env.example`) is the single source for frontend and backend.
 - Upgrade to TypeScript 7 (Next.js 15 can't load it; keep `typescript@5`).
 - Move `mock_data` out of `backend/` (Cloud Run builds the backend from `backend/` only).
 - Add build/CI files (`cloudbuild*.yaml`, `.github/workflows/`) yet - deferred until local development is complete (see `docs/todo.md`).

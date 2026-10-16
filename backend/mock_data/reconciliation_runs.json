@@ -1,0 +1,182 @@
+[
+  {
+    "run_id": "REC-001",
+    "date": "2026-09-17",
+    "total_records": 41336,
+    "matched_records": 41288
+  },
+  {
+    "run_id": "REC-002",
+    "date": "2026-09-18",
+    "total_records": 44896,
+    "matched_records": 44704
+  },
+  {
+    "run_id": "REC-003",
+    "date": "2026-09-19",
+    "total_records": 44622,
+    "matched_records": 44429
+  },
+  {
+    "run_id": "REC-004",
+    "date": "2026-09-20",
+    "total_records": 42413,
+    "matched_records": 42188
+  },
+  {
+    "run_id": "REC-005",
+    "date": "2026-09-21",
+    "total_records": 42688,
+    "matched_records": 42575
+  },
+  {
+    "run_id": "REC-006",
+    "date": "2026-09-22",
+    "total_records": 45439,
+    "matched_records": 45191
+  },
+  {
+    "run_id": "REC-007",
+    "date": "2026-09-23",
+    "total_records": 41459,
+    "matched_records": 41321
+  },
+  {
+    "run_id": "REC-008",
+    "date": "2026-09-24",
+    "total_records": 45262,
+    "matched_records": 45159
+  },
+  {
+    "run_id": "REC-009",
+    "date": "2026-09-25",
+    "total_records": 41716,
+    "matched_records": 41580
+  },
+  {
+    "run_id": "REC-010",
+    "date": "2026-09-26",
+    "total_records": 43676,
+    "matched_records": 43428
+  },
+  {
+    "run_id": "REC-011",
+    "date": "2026-09-27",
+    "total_records": 42788,
+    "matched_records": 42723
+  },
+  {
+    "run_id": "REC-012",
+    "date": "2026-09-28",
+    "total_records": 44302,
+    "matched_records": 44127
+  },
+  {
+    "run_id": "REC-013",
+    "date": "2026-09-29",
+    "total_records": 41052,
+    "matched_records": 40808
+  },
+  {
+    "run_id": "REC-014",
+    "date": "2026-09-30",
+    "total_records": 44348,
+    "matched_records": 44256
+  },
+  {
+    "run_id": "REC-015",
+    "date": "2026-10-01",
+    "total_records": 43009,
+    "matched_records": 42880
+  },
+  {
+    "run_id": "REC-016",
+    "date": "2026-10-02",
+    "total_records": 42393,
+    "matched_records": 42175
+  },
+  {
+    "run_id": "REC-017",
+    "date": "2026-10-03",
+    "total_records": 43087,
+    "matched_records": 43016
+  },
+  {
+    "run_id": "REC-018",
+    "date": "2026-10-04",
+    "total_records": 41492,
+    "matched_records": 41316
+  },
+  {
+    "run_id": "REC-019",
+    "date": "2026-10-05",
+    "total_records": 42093,
+    "matched_records": 42016
+  },
+  {
+    "run_id": "REC-020",
+    "date": "2026-10-06",
+    "total_records": 41665,
+    "matched_records": 41584
+  },
+  {
+    "run_id": "REC-021",
+    "date": "2026-10-07",
+    "total_records": 44934,
+    "matched_records": 44862
+  },
+  {
+    "run_id": "REC-022",
+    "date": "2026-10-08",
+    "total_records": 44202,
+    "matched_records": 44145
+  },
+  {
+    "run_id": "REC-023",
+    "date": "2026-10-09",
+    "total_records": 43502,
+    "matched_records": 42892
+  },
+  {
+    "run_id": "REC-024",
+    "date": "2026-10-10",
+    "total_records": 41628,
+    "matched_records": 41554
+  },
+  {
+    "run_id": "REC-025",
+    "date": "2026-10-11",
+    "total_records": 45567,
+    "matched_records": 45466
+  },
+  {
+    "run_id": "REC-026",
+    "date": "2026-10-12",
+    "total_records": 42182,
+    "matched_records": 42042
+  },
+  {
+    "run_id": "REC-027",
+    "date": "2026-10-13",
+    "total_records": 43368,
+    "matched_records": 43130
+  },
+  {
+    "run_id": "REC-028",
+    "date": "2026-10-14",
+    "total_records": 45643,
+    "matched_records": 45546
+  },
+  {
+    "run_id": "REC-029",
+    "date": "2026-10-15",
+    "total_records": 41611,
+    "matched_records": 41364
+  },
+  {
+    "run_id": "REC-030",
+    "date": "2026-10-16",
+    "total_records": 44356,
+    "matched_records": 44303
+  }
+]

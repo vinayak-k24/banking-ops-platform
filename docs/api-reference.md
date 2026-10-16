@@ -16,13 +16,14 @@ Errors return `{"detail": "..."}` with status 400, 403, 404 or 409.
 | Method | Path | Description |
 |---|---|---|
 | GET | `/api/telemetry` | Cross-page KPI summary |
-| GET | `/api/charts/overview?timeframe=` | Overview chart series |
+| GET | `/api/charts/overview?timeframe=` | Overview chart series. `timeframe` = `Today` / `7 Days` / `This Month` (month to date) filters `reconcile.observations`; `cashFlow` is always the trailing 7 days with `totals`; `coreHealth` = `{value, status, thresholds}` from `CORE_HEALTH_HEALTHY` / `CORE_HEALTH_WARNING`; `reconcile.target_pct` from `RECONCILIATION_ACCURACY_TARGET_PCT` |
 | GET | `/api/services` | Service metrics |
 | GET | `/api/databases/{database_id}/metrics` | Capacity metrics and history |
 | GET | `/api/databases/{database_id}/archival-jobs` | Archival jobs |
 | GET | `/api/queues/{queue_id}` | Queue metrics |
 | GET | `/api/logs/{component}?severity=&limit=` | Synthetic logs |
 | GET | `/api/incidents?status=` | Incidents |
+| POST | `/api/incidents/{incident_id}/status` | Body `{action: "acknowledge" \| "resolve", actor}`. Acknowledge → `INVESTIGATING` with `owner = actor`; resolve → `RESOLVED`. Audited (`incident.updated`). 404 unknown, 409 already resolved |
 | GET | `/api/transactions/summary` | Transaction counts |
 | POST | `/api/reconciliation/run` | Run reconciliation |
 | GET | `/api/reconciliation/exceptions?status=` | Exceptions |

@@ -47,5 +47,10 @@ def run_reconciliation(source_a: str = "LEDGER", source_b: str = "SETTLEMENT") -
 
 
 def list_exceptions(status: str | None = None) -> list[dict]:
+    """List reconciliation exceptions (ledger vs settlement mismatches).
+
+    Args:
+        status: Optional filter, e.g. OPEN or RESOLVED.
+    """
     filters = {"status": status} if status else {}
     return get_store().list("reconciliation_exceptions", **filters)

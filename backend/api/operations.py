@@ -4,7 +4,9 @@ from fastapi import APIRouter, HTTPException
 
 from agents.compliance_agent import list_compliance_controls
 from agents.migration_agent import list_migration_modules
+from models.schemas import IncidentStatusRequest
 from services import audit
+from services.firestore_store import get_store
 from tools import mock_database, mock_incidents, mock_monitoring, mock_transactions
 
 router = APIRouter(prefix="/api", tags=["operations"])
@@ -54,6 +56,18 @@ def logs(component: str, severity: str | None = None, limit: int = 20):
 @router.get("/incidents")
 def incidents(status: str | None = None):
     return mock_incidents.list_incidents(status)
+
+
+@router.post("/incidents/{incident_id}/status")
+def incident_status(incident_id: str, body: IncidentStatusRequest):
+    current = get_store().get("incidents", incident_id)
+    if current is None:
+        raise HTTPException(404, f"Unknown incident {incident_id}")
+    if current["status"] == "RESOLVED":
+        raise HTTPException(409, f"Incident {incident_id} is already resolved")
+    if body.action == "acknowledge":
+        return mock_incidents.update_incident(incident_id, "INVESTIGATING", owner=body.actor, actor=body.actor)
+    return mock_incidents.update_incident(incident_id, "RESOLVED", actor=body.actor)
 
 
 @router.get("/transactions/summary")

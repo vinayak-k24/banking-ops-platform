@@ -135,6 +135,13 @@ class CopilotRequest(BaseModel):
     query: str = Field(min_length=1, max_length=2000)
 
 
+class IncidentStatusRequest(BaseModel):
+    """Acknowledge (-> INVESTIGATING, owner = actor) or resolve an incident from the alert queue."""
+
+    action: str = Field(pattern="^(acknowledge|resolve)$")
+    actor: str = Field(min_length=1, max_length=64)
+
+
 class ExportRequest(BaseModel):
     type: str = Field(default="Report", max_length=80)
 

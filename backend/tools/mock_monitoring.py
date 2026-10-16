@@ -1,5 +1,9 @@
 """Mock service monitoring and cross-page aggregates (derived from shared state, not hardcoded)."""
 
+from datetime import date, timedelta
+from decimal import ROUND_HALF_UP, Decimal
+
+from config import get_settings
 from services.firestore_store import get_store
 from tools import mock_database
 
@@ -17,6 +21,8 @@ def get_service_metrics(service_id: str | None = None) -> list[dict] | dict:
 
 
 def telemetry_summary() -> dict:
+    """Return the cross-page KPI summary: core health, DB hours to threshold, open P1/P2 incidents,
+    reconciliation discrepancy (USD), compliance pass rate, modernization progress and pending approvals."""
     store = get_store()
     db = mock_database.get_database_metrics()
     open_incidents = [i for i in store.list("incidents") if i["status"] != "RESOLVED"]
@@ -44,8 +50,68 @@ def telemetry_summary() -> dict:
     }
 
 
+def _window_days(timeframe: str, latest: date) -> int:
+    """Number of daily observations covered by a header timeframe, ending on the latest date."""
+    return {"Today": 1, "7 Days": 7}.get(timeframe, latest.day)  # "This Month" = month to date
+
+
+def core_health_status(score: float) -> dict:
+    """Classify a 0-1 health score against the configured thresholds."""
+    s = get_settings()
+    status = "HEALTHY" if score >= s.core_health_healthy else "WARNING" if score >= s.core_health_warning else "CRITICAL"
+    return {"value": score, "status": status,
+            "thresholds": {"healthy": s.core_health_healthy, "warning": s.core_health_warning}}
+
+
+def cash_flow_series() -> dict:
+    """Trailing 7 daily inflow/outflow totals (USD) ending on the latest recorded day."""
+    rows = sorted(get_store().list("cash_flow_daily"), key=lambda r: r["date"])[-7:]
+    inflow = [Decimal(str(r["inflow_usd"])) for r in rows]
+    outflow = [Decimal(str(r["outflow_usd"])) for r in rows]
+    return {
+        "labels": [date.fromisoformat(r["date"]).strftime("%a") for r in rows],
+        "dates": [r["date"] for r in rows],
+        "datasets": [
+            {"label": "Inflow", "data": [float(v) for v in inflow]},
+            {"label": "Outflow", "data": [float(v) for v in outflow]},
+        ],
+        "totals": {"inflow": float(sum(inflow, Decimal(0))), "outflow": float(sum(outflow, Decimal(0)))},
+    }
+
+
+def reconciliation_trend(timeframe: str = "This Month") -> dict:
+    """Daily reconciliation accuracy (matched / total records, %) within the selected timeframe.
+
+    Args:
+        timeframe: Header timeframe: Today, 7 Days or This Month.
+    """
+    runs = sorted(get_store().list("reconciliation_runs"), key=lambda r: r["date"])
+    target = get_settings().reconciliation_accuracy_target_pct
+    if not runs:
+        return {"observations": [], "target_pct": target, "latest": None}
+
+    def pct(r: dict) -> Decimal:
+        return (Decimal(r["matched_records"]) / Decimal(r["total_records"]) * 100).quantize(Decimal("0.01"), ROUND_HALF_UP)
+
+    latest_date = date.fromisoformat(runs[-1]["date"])
+    start = latest_date - timedelta(days=_window_days(timeframe, latest_date) - 1)
+    in_window = [r for r in runs if date.fromisoformat(r["date"]) >= start]
+    observations = [{"date": r["date"], "accuracy_pct": float(pct(r)), "matched": r["matched_records"],
+                     "total": r["total_records"]} for r in in_window]
+    # Change is measured against the previous run even if it falls outside the window.
+    prev = pct(runs[-2]) if len(runs) > 1 else None
+    last = pct(runs[-1])
+    return {
+        "observations": observations,
+        "target_pct": target,
+        "latest": {"date": runs[-1]["date"], "accuracy_pct": float(last),
+                   "change_pct": float(last - prev) if prev is not None else None,
+                   "meets_target": last >= Decimal(str(target))},
+    }
+
+
 def overview_charts(timeframe: str = "This Month") -> dict:
-    # Chart series for the overview page. Static demo series for now; derive from transactions later.
+    # Fraud and compliance series are static demo data; cash flow and reconciliation come from the store.
     return {
         "fraud": {
             "labels": ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
@@ -54,15 +120,9 @@ def overview_charts(timeframe: str = "This Month") -> dict:
                 {"label": "Fraud Detected", "data": [450, 280, 240, 320, 290, 780, 500, 430, 510, 180, 280, 400]},
             ],
         },
-        "cashFlow": {
-            "labels": ["s", "m", "t", "w", "t", "f", "s"],
-            "datasets": [
-                {"label": "Inflow", "data": [12, 18, 15, 14, 22, 19, 16]},
-                {"label": "Outflow", "data": [10, 14, 11, 10, 16, 12, 13]},
-            ],
-        },
+        "cashFlow": cash_flow_series(),
         "compliance": {"labels": ["AML", "KYC", "GDPR"], "datasets": [{"label": "Compliance", "data": [65, 80, 70]}]},
-        "reconcile": {"labels": [str(i) for i in range(1, 9)], "datasets": [{"label": "Accuracy", "data": [40, 45, 83, 40, 78, 42, 65, 50]}]},
-        "coreHealth": 0.93,
+        "reconcile": reconciliation_trend(timeframe),
+        "coreHealth": core_health_status(0.93),
         "timeframe": timeframe,
     }

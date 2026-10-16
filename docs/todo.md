@@ -15,10 +15,14 @@ Order follows the implementation phases in the functional specification.
 - [x] Frontend `/api` proxy to backend; Dockerfiles for both services; docker-compose
 - [x] Backend tests (23 passing)
 - [x] Migration planner on page 6: document upload (PDF/DOCX/MD/TXT) or IDE-agent codebase summary → indexed evidence → deterministic phased plan with verification → Markdown/PDF report
+- [x] Page 1 layout refinement: larger compliance doughnut and health gauge (status from configured thresholds), full-card cash-flow chart from `cash_flow_daily`, reconciliation accuracy trend from `reconciliation_runs` with target line, fixed-height alert panel (top 3) + alerts modal with search/filters, acknowledge and resolve (`POST /api/incidents/{id}/status`)
+- [x] Page 1 "Active Incidents" KPI, alert queue and page 3 incident table read `/api/incidents` and refresh together after acknowledge/resolve
 
 ## Phase 1–2: Data wiring and flagship scenario
 
-- [ ] Replace static values on page 1 (Overview) KPI cards, alerts and service health with backend data
+- [ ] Replace remaining static values on page 1 (Volume, Success/Failed, Availability, Txn Speed, Pending Tasks KPIs; fraud and compliance chart series) with backend data
+- [ ] Define an aggregation rule for an overall compliance score before showing one (the doughnut center is intentionally empty); derive AML/KYC/GDPR percentages from `compliance_controls`
+- [ ] Derive the Core Banking Health score (currently fixed at 0.93) from service metrics
 - [ ] Page 2 (Database): live capacity cards, trend chart from `history`, archival job table, queue panel
 - [ ] Page 2: "Launch investigation" button → `POST /api/tasks`; show steps and status live (polling)
 - [ ] Page 2: approval panel wired to `/api/approvals/{id}/decision` (replace legacy `/api/decisions`)

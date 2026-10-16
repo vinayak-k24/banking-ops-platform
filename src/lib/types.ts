@@ -5,12 +5,55 @@ export interface ChartSeries {
   datasets: { label: string; data: number[] }[];
 }
 
+export interface CashFlowSeries extends ChartSeries {
+  dates: string[];
+  totals: { inflow: number; outflow: number };
+}
+
+export interface ReconcileObservation {
+  date: string;
+  accuracy_pct: number;
+  matched: number;
+  total: number;
+}
+
+export interface ReconcileTrend {
+  observations: ReconcileObservation[];
+  target_pct: number;
+  latest: { date: string; accuracy_pct: number; change_pct: number | null; meets_target: boolean } | null;
+}
+
+export type HealthStatus = 'HEALTHY' | 'WARNING' | 'CRITICAL';
+
+export interface CoreHealth {
+  value: number;
+  status: HealthStatus;
+  thresholds: { healthy: number; warning: number };
+}
+
 export interface OverviewCharts {
   fraud: ChartSeries;
-  cashFlow: ChartSeries;
+  cashFlow: CashFlowSeries;
   compliance: ChartSeries;
-  reconcile: ChartSeries;
-  coreHealth: number;
+  reconcile: ReconcileTrend;
+  coreHealth: CoreHealth;
+  timeframe: string;
+}
+
+export type IncidentSeverity = 'P1' | 'P2' | 'P3' | 'P4';
+export type IncidentStatus = 'OPEN' | 'INVESTIGATING' | 'RESOLVED';
+
+export interface Incident {
+  incident_id: string;
+  title: string;
+  severity: IncidentSeverity;
+  service_id: string;
+  status: IncidentStatus;
+  owner: string | null;
+  description?: string;
+  evidence: string[];
+  created_at: string;
+  updated_at: string;
 }
 
 export interface TelemetrySummary {

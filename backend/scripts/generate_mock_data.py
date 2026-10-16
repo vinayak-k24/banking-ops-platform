@@ -58,12 +58,58 @@ service_metrics = [
     {"service_id": "DB2_MAIN", "name": "Mainframe Db2 Cluster", "latency_ms": 35, "error_rate": 0.4, "availability": 99.97, "dependencies": []},
 ]
 
+def incident(n: int, title: str, severity: str, service_id: str, status: str, owner: str | None, description: str,
+             evidence: list[str], age: timedelta) -> dict:
+    return {"incident_id": f"INC-{n}", "title": title, "severity": severity, "service_id": service_id, "status": status,
+            "owner": owner, "description": description, "evidence": evidence,
+            "created_at": ts(-age), "updated_at": ts(-age + timedelta(minutes=20))}
+
+
 incidents = [
-    {"incident_id": "INC-1001", "title": "SWIFT outbound delay", "severity": "P2", "service_id": "SWIFT_GATEWAY", "status": "INVESTIGATING",
-     "owner": "sre-oncall", "evidence": ["Queue time > 180s"], "created_at": ts(timedelta(hours=-3)), "updated_at": ts(timedelta(hours=-1))},
-    {"incident_id": "INC-1002", "title": "Mobile login latency", "severity": "P3", "service_id": "MOBILE_API", "status": "RESOLVED",
-     "owner": "app-support", "evidence": ["p95 latency 900ms for 12 min"], "created_at": ts(timedelta(days=-1)), "updated_at": ts(timedelta(hours=-20))},
+    incident(1001, "SWIFT outbound delay", "P2", "SWIFT_GATEWAY", "INVESTIGATING", "sre-oncall",
+             "Queue time exceeding 180s on correspondent wire pipeline.", ["Queue time > 180s"], timedelta(hours=3)),
+    incident(1002, "Mobile login latency", "P3", "MOBILE_API", "RESOLVED", "app-support",
+             "p95 login latency reached 900ms for 12 minutes.", ["p95 latency 900ms for 12 min"], timedelta(days=1)),
+    # Same title/service the database_investigation workflow raises, so the workflow deduplicates onto it.
+    incident(1003, "Database capacity warning", "P2", "DB2_MAIN", "OPEN", None,
+             "Mainframe Db2 storage above the 80% warning threshold and growing ~120 GB/day.",
+             ["Utilization above warning threshold"], timedelta(minutes=50)),
+    incident(1004, "Payment API connection pool exhausted", "P1", "PAYMENT_API", "OPEN", None,
+             "Connection pool at max=200 waiting on DB2_MAIN; p95 latency 412ms above 300ms SLO.",
+             ["LOG-0004", "LOG-0005"], timedelta(minutes=15)),
+    incident(1005, "Archival job lock delay", "P3", "DB2_MAIN", "OPEN", None,
+             "ARC_SWIFT_2026 hit SQLCODE -911 on SWIFT_IDX_02; ARC_LOAN_118 is blocked behind it.",
+             ["LOG-0001", "LOG-0003"], timedelta(minutes=28)),
+    incident(1006, "Settlement amount mismatches", "P3", "CORE_LEDGER", "OPEN", None,
+             "Ledger vs settlement amount mismatches open in today's reconciliation run.",
+             ["reconciliation_exceptions status=OPEN"], timedelta(hours=2)),
+    incident(1007, "GDPR retention evidence overdue", "P4", "COMPLIANCE", "OPEN", None,
+             "Control CTL-GDPR-01 purge evidence was due 2026-10-10.", ["CTL-GDPR-01"], timedelta(hours=6)),
 ]
+
+# Daily series use their own RNG so adding them doesn't change the transaction data below.
+series_rng = random.Random(4096)
+
+# 30 days of daily cash totals (USD). The trailing 7 days are scaled to $25.4M in / $18.2M out.
+cash_flow_daily = []
+for d in range(30):
+    day = (NOW - timedelta(days=29 - d)).date().isoformat()
+    cash_flow_daily.append({"date": day, "inflow_usd": round(series_rng.uniform(2.6e6, 4.4e6), 2),
+                            "outflow_usd": round(series_rng.uniform(1.9e6, 3.1e6), 2)})
+for key, total in (("inflow_usd", 25.4e6), ("outflow_usd", 18.2e6)):
+    week = cash_flow_daily[-7:]
+    scale = total / sum(r[key] for r in week)
+    for r in week:
+        r[key] = round(r[key] * scale, 2)
+    week[-1][key] = round(week[-1][key] + total - sum(r[key] for r in week), 2)
+
+# 30 daily reconciliation runs (matched vs total ledger records).
+reconciliation_runs = []
+for d in range(30):
+    total = series_rng.randint(41000, 47000)
+    mismatched = series_rng.randint(40, 260) if d != 22 else 610  # one bad batch day
+    reconciliation_runs.append({"run_id": f"REC-{d + 1:03d}", "date": (NOW - timedelta(days=29 - d)).date().isoformat(),
+                                "total_records": total, "matched_records": total - mismatched})
 
 transactions, exceptions = [], []
 for i in range(1, 61):
@@ -118,6 +164,8 @@ DATASETS = {
     "incidents": incidents,
     "transactions": transactions,
     "reconciliation_exceptions": exceptions,
+    "reconciliation_runs": reconciliation_runs,
+    "cash_flow_daily": cash_flow_daily,
     "compliance_controls": compliance_controls,
     "migration_modules": migration_modules,
     "mock_logs": mock_logs,

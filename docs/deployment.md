@@ -45,7 +45,7 @@ git push -u origin main
 
 Check before pushing:
 - `.gitignore` excludes `node_modules`, `.next`, `.env*`, `backend/.venv`.
-- No keys in the repo. `backend/.env` and `.env.local` stay local; use Cloud Run env vars / Secret Manager.
+- No keys in the repo. The single repo-root `.env` stays local (excluded from git and both Docker build contexts); use Cloud Run env vars / Secret Manager.
 - `backend/mock_data/*.json` **is** committed (needed by the in-memory store and the seed script).
 
 ## 3. One-time Google Cloud setup
@@ -208,6 +208,8 @@ The deploy service account needs the CI roles listed in [gcp-services.md](gcp-se
 | `GCP_PROJECT` | api | — | Firestore project |
 | `AGENTS_ENABLED` | api | `false` | Enables Gemini agents |
 | `GOOGLE_GENAI_USE_VERTEXAI` | api | — | `true` to use Vertex AI with the service account |
+| `GOOGLE_API_KEY` | api | — | AI Studio key, or Vertex AI express-mode key with `GOOGLE_GENAI_USE_VERTEXAI=true`. Store in Secret Manager. Ignored by the SDK if `GOOGLE_CLOUD_PROJECT` is also set (service-account credentials win); not needed with the service-account setup above |
+| `AGENT_MAX_LLM_CALLS` | api | `8` | Max model calls per copilot question |
 | `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION` | api | — | Vertex AI project/region |
 | `GEMINI_MODEL` | api | `gemini-2.0-flash` | Check the model is available in your region |
 | `CORS_ORIGINS` | api | `["http://localhost:3000"]` | JSON list |

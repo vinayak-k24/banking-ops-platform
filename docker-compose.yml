@@ -6,7 +6,7 @@ services:
       PORT: 8000
       CORS_ORIGINS: '["http://localhost:3000"]'
     env_file:
-      - path: ./backend/.env
+      - path: ./.env
         required: false
     ports:
       - "8000:8000"

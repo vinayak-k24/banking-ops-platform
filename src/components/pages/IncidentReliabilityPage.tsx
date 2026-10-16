@@ -1,17 +1,23 @@
 'use client';
 
 import { useDashboard } from '@/context/DashboardContext';
+import { SEVERITY_STYLE, STATUS_STYLE, formatTimestamp, isActive, sortIncidents, useIncidents } from '@/lib/incidents';
 
 export default function IncidentReliabilityPage() {
   const { openModal } = useDashboard();
+  const { incidents, error } = useIncidents();
+  const queue = sortIncidents(incidents ?? []);
+  const active = queue.filter(isActive);
+  const critical = active.filter((i) => i.severity === 'P1' || i.severity === 'P2');
+  const p1 = critical.filter((i) => i.severity === 'P1').length;
 
   return (
     <section className="h-full flex flex-col space-y-3">
         <div className="grid grid-cols-6 gap-3 shrink-0">
             <div className="bg-white rounded-2xl p-3 border border-slate-100 shadow-sm">
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Incidents</div>
-                <div className="text-xl font-black text-rose-600 mt-0.5">3 Critical</div>
-                <div className="text-[9px] text-slate-400">1 P1, 2 P2</div>
+                <div className="text-xl font-black text-rose-600 mt-0.5">{incidents ? `${critical.length} Critical` : '—'}</div>
+                <div className="text-[9px] text-slate-400">{incidents ? `${p1} P1, ${critical.length - p1} P2 · ${active.length} active total` : 'Loading...'}</div>
             </div>
             <div className="bg-white rounded-2xl p-3 border border-slate-100 shadow-sm">
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">API Error Rate</div>
@@ -52,35 +58,31 @@ export default function IncidentReliabilityPage() {
                                 <th className="p-2">Severity</th>
                                 <th className="p-2">Assigned Team</th>
                                 <th className="p-2">Status</th>
-                                <th className="p-2">SLA Left</th>
+                                <th className="p-2">Raised</th>
                                 <th className="p-2">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
-                            <tr className="hover:bg-slate-50">
-                                <td className="p-2 font-bold text-slate-900">INC-8921</td>
-                                <td className="p-2">
-                                    <div className="font-bold text-slate-900">DB Conn Pool Saturation</div>
-                                    <div className="text-[9px] text-slate-400">Core Ledger DB</div>
-                                </td>
-                                <td className="p-2"><span className="bg-rose-100 text-coralRed text-[9px] font-extrabold px-2 py-0.5 rounded-full">P1 CRITICAL</span></td>
-                                <td className="p-2">SRE Core Team</td>
-                                <td className="p-2"><span className="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded-full">Investigating</span></td>
-                                <td className="p-2 font-bold text-coralRed">14 min</td>
-                                <td className="p-2"><button onClick={() => openModal('INC-8921', 'Assigned SRE: Sarah Jenkins. Connection pool saturation on Db2 node 4.')} className="action-btn-black text-[10px] font-bold px-2.5 py-1 rounded-lg">Triage</button></td>
-                            </tr>
-                            <tr className="hover:bg-slate-50">
-                                <td className="p-2 font-bold text-slate-900">INC-8925</td>
-                                <td className="p-2">
-                                    <div className="font-bold text-slate-900">Latency Spike on OAuth API</div>
-                                    <div className="text-[9px] text-slate-400">Identity Service</div>
-                                </td>
-                                <td className="p-2"><span className="bg-amber-100 text-amber-800 text-[9px] font-extrabold px-2 py-0.5 rounded-full">P2 HIGH</span></td>
-                                <td className="p-2">Identity Pod</td>
-                                <td className="p-2"><span className="bg-blue-100 text-accentBlue text-[9px] font-bold px-2 py-0.5 rounded-full">Identified</span></td>
-                                <td className="p-2 font-bold text-slate-700">42 min</td>
-                                <td className="p-2"><button onClick={() => openModal('INC-8925', 'Restarting auth caching pod instances.')} className="action-btn-black text-[10px] font-bold px-2.5 py-1 rounded-lg">Triage</button></td>
-                            </tr>
+                            {!incidents && (
+                                <tr><td colSpan={7} className="p-3 text-center text-slate-400">{error ? `Could not load incidents: ${error}` : 'Loading incidents...'}</td></tr>
+                            )}
+                            {incidents && queue.length === 0 && (
+                                <tr><td colSpan={7} className="p-3 text-center text-slate-400">No incidents recorded.</td></tr>
+                            )}
+                            {queue.map((i) => (
+                                <tr key={i.incident_id} className={`hover:bg-slate-50 ${isActive(i) ? '' : 'opacity-60'}`}>
+                                    <td className="p-2 font-bold text-slate-900">{i.incident_id}</td>
+                                    <td className="p-2">
+                                        <div className="font-bold text-slate-900">{i.title}</div>
+                                        <div className="text-[9px] text-slate-400">{i.service_id}</div>
+                                    </td>
+                                    <td className="p-2"><span className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full ${SEVERITY_STYLE[i.severity].badge}`}>{SEVERITY_STYLE[i.severity].label}</span></td>
+                                    <td className="p-2">{i.owner ?? 'Unassigned'}</td>
+                                    <td className="p-2"><span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${STATUS_STYLE[i.status].badge}`}>{STATUS_STYLE[i.status].label}</span></td>
+                                    <td className="p-2 text-slate-500">{formatTimestamp(i.created_at)}</td>
+                                    <td className="p-2"><button onClick={() => openModal(`${i.incident_id}: ${i.title}`, `${i.description ?? ''}\n\nEvidence: ${i.evidence.join('; ')}`)} className="action-btn-black text-[10px] font-bold px-2.5 py-1 rounded-lg">Triage</button></td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

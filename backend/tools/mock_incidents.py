@@ -5,6 +5,7 @@ from services import audit
 from services.firestore_store import get_store
 
 SEVERITIES = {"P1", "P2", "P3", "P4"}
+STATUSES = {"OPEN", "INVESTIGATING", "RESOLVED"}
 
 
 def list_incidents(status: str | None = None) -> list[dict]:
@@ -48,6 +49,8 @@ def create_incident(title: str, severity: str, service_id: str, evidence: list[s
 
 
 def update_incident(incident_id: str, status: str | None = None, owner: str | None = None, actor: str = "system") -> dict:
+    if status and status not in STATUSES:
+        return {"error": f"Invalid status {status}"}
     changes = {"updated_at": utcnow()}
     if status:
         changes["status"] = status

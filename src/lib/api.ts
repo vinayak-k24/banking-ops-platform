@@ -1,5 +1,5 @@
 import type {
-  AgentTask, Approval, AuditEvent, DecisionInput, MigrationPlan, MigrationSourceType, MigrationUploadResponse,
+  AgentTask, Approval, AuditEvent, DecisionInput, Incident, MigrationPlan, MigrationSourceType, MigrationUploadResponse,
   OverviewCharts, TelemetrySummary,
 } from '@/lib/types';
 
@@ -26,6 +26,9 @@ export const api = {
   overviewCharts: (timeframe: string) =>
     request<OverviewCharts>(`/api/charts/overview?timeframe=${encodeURIComponent(timeframe)}`),
   telemetry: () => request<TelemetrySummary>('/api/telemetry'),
+  listIncidents: () => request<Incident[]>('/api/incidents'),
+  updateIncident: (incidentId: string, action: 'acknowledge' | 'resolve', actor: string) =>
+    request<Incident>(`/api/incidents/${encodeURIComponent(incidentId)}/status`, post({ action, actor })),
   recordDecision: (input: DecisionInput) => request<AuditEvent>('/api/decisions', post(input)),
   askCopilot: (query: string) => request<{ answer: string; source: string }>('/api/copilot', post({ query })),
   exportReport: (type: string) => request<{ status: string; fileName: string }>('/api/export', post({ type })),

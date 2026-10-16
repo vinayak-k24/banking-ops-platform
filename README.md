@@ -27,7 +27,7 @@ banking-ops-platform/
 │
 ├── backend/                      BACKEND (Python, FastAPI, Google ADK)
 │   ├── main.py                   FastAPI app
-│   ├── config.py                 Settings and thresholds (env / backend/.env)
+│   ├── config.py                 Settings and thresholds (env / repo-root .env)
 │   ├── api/                      HTTP routes: operations, tasks, approvals, copilot
 │   ├── agents/                   ADK agents: orchestrator + operations, database, incident,
 │   │                             reconciliation, compliance, migration, risk, verification
@@ -103,9 +103,21 @@ Tests: `cd backend; .\.venv\Scripts\python -m pytest`
 
 ## Enabling Gemini agents
 
-Copy `backend/.env.example` to `backend/.env`, set `AGENTS_ENABLED=true` and either Vertex AI
-(`GOOGLE_GENAI_USE_VERTEXAI=true`, `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`, after
-`gcloud auth application-default login`) or `GOOGLE_API_KEY` for local testing.
+There is one env file for the whole repo. Copy `.env.example` to `.env` at the repo root, set
+`AGENTS_ENABLED=true` and either `GOOGLE_API_KEY` (add `GOOGLE_GENAI_USE_VERTEXAI=true` for a Google Cloud
+Vertex AI express-mode key) or Vertex AI with ADC (`GOOGLE_GENAI_USE_VERTEXAI=true`, `GOOGLE_CLOUD_PROJECT`,
+after `gcloud auth application-default login`).
+
+Before spending credits, run the preflight (checks config, credentials and the model without generating):
+
+```powershell
+backend\.venv\Scripts\python backend\scripts\check_gemini.py          # no tokens used
+backend\.venv\Scripts\python backend\scripts\check_gemini.py --live   # one tiny prompt
+```
+
+Agent wiring is tested offline (`backend/tests/test_agents.py`) with a scripted fake model; tests force
+`AGENTS_ENABLED=false` so they never call Gemini. Each copilot question is capped at `AGENT_MAX_LLM_CALLS`
+model calls (default 8).
 
 ## Deploy to Google Cloud Run
 

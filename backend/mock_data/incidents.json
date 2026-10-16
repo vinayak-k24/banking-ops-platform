@@ -6,11 +6,12 @@
     "service_id": "SWIFT_GATEWAY",
     "status": "INVESTIGATING",
     "owner": "sre-oncall",
+    "description": "Queue time exceeding 180s on correspondent wire pipeline.",
     "evidence": [
       "Queue time > 180s"
     ],
     "created_at": "2026-10-16T06:00:00+00:00",
-    "updated_at": "2026-10-16T08:00:00+00:00"
+    "updated_at": "2026-10-16T06:20:00+00:00"
   },
   {
     "incident_id": "INC-1002",
@@ -19,10 +20,83 @@
     "service_id": "MOBILE_API",
     "status": "RESOLVED",
     "owner": "app-support",
+    "description": "p95 login latency reached 900ms for 12 minutes.",
     "evidence": [
       "p95 latency 900ms for 12 min"
     ],
     "created_at": "2026-10-15T09:00:00+00:00",
-    "updated_at": "2026-10-15T13:00:00+00:00"
+    "updated_at": "2026-10-15T09:20:00+00:00"
+  },
+  {
+    "incident_id": "INC-1003",
+    "title": "Database capacity warning",
+    "severity": "P2",
+    "service_id": "DB2_MAIN",
+    "status": "OPEN",
+    "owner": null,
+    "description": "Mainframe Db2 storage above the 80% warning threshold and growing ~120 GB/day.",
+    "evidence": [
+      "Utilization above warning threshold"
+    ],
+    "created_at": "2026-10-16T08:10:00+00:00",
+    "updated_at": "2026-10-16T08:30:00+00:00"
+  },
+  {
+    "incident_id": "INC-1004",
+    "title": "Payment API connection pool exhausted",
+    "severity": "P1",
+    "service_id": "PAYMENT_API",
+    "status": "OPEN",
+    "owner": null,
+    "description": "Connection pool at max=200 waiting on DB2_MAIN; p95 latency 412ms above 300ms SLO.",
+    "evidence": [
+      "LOG-0004",
+      "LOG-0005"
+    ],
+    "created_at": "2026-10-16T08:45:00+00:00",
+    "updated_at": "2026-10-16T09:05:00+00:00"
+  },
+  {
+    "incident_id": "INC-1005",
+    "title": "Archival job lock delay",
+    "severity": "P3",
+    "service_id": "DB2_MAIN",
+    "status": "OPEN",
+    "owner": null,
+    "description": "ARC_SWIFT_2026 hit SQLCODE -911 on SWIFT_IDX_02; ARC_LOAN_118 is blocked behind it.",
+    "evidence": [
+      "LOG-0001",
+      "LOG-0003"
+    ],
+    "created_at": "2026-10-16T08:32:00+00:00",
+    "updated_at": "2026-10-16T08:52:00+00:00"
+  },
+  {
+    "incident_id": "INC-1006",
+    "title": "Settlement amount mismatches",
+    "severity": "P3",
+    "service_id": "CORE_LEDGER",
+    "status": "OPEN",
+    "owner": null,
+    "description": "Ledger vs settlement amount mismatches open in today's reconciliation run.",
+    "evidence": [
+      "reconciliation_exceptions status=OPEN"
+    ],
+    "created_at": "2026-10-16T07:00:00+00:00",
+    "updated_at": "2026-10-16T07:20:00+00:00"
+  },
+  {
+    "incident_id": "INC-1007",
+    "title": "GDPR retention evidence overdue",
+    "severity": "P4",
+    "service_id": "COMPLIANCE",
+    "status": "OPEN",
+    "owner": null,
+    "description": "Control CTL-GDPR-01 purge evidence was due 2026-10-10.",
+    "evidence": [
+      "CTL-GDPR-01"
+    ],
+    "created_at": "2026-10-16T03:00:00+00:00",
+    "updated_at": "2026-10-16T03:20:00+00:00"
   }
 ]

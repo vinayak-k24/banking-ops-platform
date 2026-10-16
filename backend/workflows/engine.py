@@ -53,14 +53,18 @@ def register(wf: WorkflowDef) -> WorkflowDef:
 
 
 def start(workflow: str, params: dict, actor: str, source_page: str | None = None) -> AgentTask:
+    return run(prepare(workflow, params, actor, source_page))
+
+
+def prepare(workflow: str, params: dict, actor: str, source_page: str | None = None) -> AgentTask:
+    """Create the task and move it to RUNNING without executing steps (for background execution)."""
     wf = REGISTRY.get(workflow)
     if not wf:
         raise KeyError(f"Unknown workflow {workflow}")
     steps = [TaskStep(name=s.name, agent_id=s.agent_id, tool=s.tool) for s in wf.steps]
     task = task_manager.create(workflow, source_page or wf.source_page, wf.description, steps, wf.build_context(params), actor)
     task.context["task_id"] = task.task_id
-    task_manager.transition(task, TaskStatus.RUNNING)
-    return run(task)
+    return task_manager.transition(task, TaskStatus.RUNNING)
 
 
 def run(task: AgentTask) -> AgentTask:

@@ -32,6 +32,13 @@ class Settings(BaseSettings):
     queue_backlog_warning: int = 1000
     max_step_retries: int = 2
 
+    # Migration planner: uploads go to GCS when gcs_bucket is set, else to upload_dir.
+    upload_dir: Path = BASE_DIR / "uploads"
+    migration_max_upload_mb: int = 50
+    migration_max_pages: int = 1500
+    embedding_model: str = "text-embedding-004"
+    migration_risk_buffer_pct: int = 20
+
 
 @lru_cache
 def get_settings() -> Settings:

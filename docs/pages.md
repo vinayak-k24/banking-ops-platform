@@ -9,7 +9,7 @@ Each page is its own route and component (`src/app/(dashboard)/<id>/page.tsx` �
 | 3 | `/sre` | IncidentReliabilityPage | Incident triage and reliability | incident_agent | Static |
 | 4 | `/reconcile` | ReconciliationPage | Reconciliation exceptions | reconciliation_agent | Static |
 | 5 | `/audit` | ComplianceAuditPage | Controls, evidence, audit trail | compliance_agent | Static |
-| 6 | `/mainframe` | ModernizationTrackerPage | COBOL→Java migration tracking | migration_agent | Static |
+| 6 | `/mainframe` | ModernizationTrackerPage | COBOL→Java migration tracking; Migration Planner (`components/migration/MigrationPlanner.tsx`) | migration_agent | Tracker static; planner → `/api/migration/*` + task polling |
 | 7 | `/command` | AgentCommandCenterPage | Agent tasks, steps, tool calls | orchestrator | Static |
 | 8 | `/risk` | PredictiveRiskPage | Early warnings and forecasts | risk_agent | Static |
 | 9 | `/governance` | HumanGovernancePage | Approval queue and decisions (spec: "Action & Decision Management") | verification_agent | Approve/Reject → `/api/decisions` (legacy) |

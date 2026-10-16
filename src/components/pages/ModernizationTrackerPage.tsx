@@ -1,12 +1,13 @@
 'use client';
 
+import MigrationPlanner from '@/components/migration/MigrationPlanner';
 import { useDashboard } from '@/context/DashboardContext';
 
 export default function ModernizationTrackerPage() {
   const { openModal } = useDashboard();
 
   return (
-    <section className="h-full flex flex-col space-y-3">
+    <section className="h-full flex flex-col space-y-3 overflow-y-auto custom-scrollbar">
         <div className="grid grid-cols-6 gap-3 shrink-0">
             <div className="bg-white rounded-2xl p-3 border border-slate-100 shadow-sm">
                 <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">COBOL Modules</div>
@@ -40,7 +41,7 @@ export default function ModernizationTrackerPage() {
             </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-3 flex-1 overflow-hidden">
+        <div className="grid grid-cols-12 gap-3 h-72 shrink-0 overflow-hidden">
             <div className="col-span-8 bg-white rounded-2xl p-3.5 border border-slate-100 shadow-sm flex flex-col overflow-hidden">
                 <h3 className="text-xs font-bold text-slate-900 mb-2">COBOL to Spring Boot Service Conversion Matrix</h3>
                 <div className="overflow-y-auto custom-scrollbar flex-1">
@@ -95,6 +96,8 @@ export default function ModernizationTrackerPage() {
                 </div>
             </div>
         </div>
+
+        <MigrationPlanner />
     </section>
   );
 }

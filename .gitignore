@@ -8,6 +8,7 @@ npm-debug.log*
 
 # Python backend
 backend/.venv
+backend/uploads/
 __pycache__/
 *.pyc
 .pytest_cache/

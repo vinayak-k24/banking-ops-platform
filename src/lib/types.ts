@@ -95,3 +95,87 @@ export interface Approval {
   created_at: string;
   decided_at: string | null;
 }
+
+// ---- Migration planner (backend/api/migration.py) ----
+
+export type MigrationSourceType = 'document' | 'codebase_summary';
+export type MigrationComponentType =
+  | 'infrastructure' | 'database' | 'data' | 'query' | 'application' | 'integration' | 'batch';
+
+export interface MigrationDocument {
+  document_id: string;
+  file_name: string;
+  source_type: MigrationSourceType;
+  size_bytes: number;
+  status: string;
+  uploaded_by: string;
+  uploaded_at: string;
+  page_count?: number;
+  plan_id?: string;
+}
+
+export interface MigrationUploadResponse {
+  document: MigrationDocument;
+  task: AgentTask;
+}
+
+export interface MigrationComponent {
+  id: string;
+  name: string;
+  type: MigrationComponentType;
+  size: 'S' | 'M' | 'L' | 'XL';
+  complexity: 'low' | 'medium' | 'high';
+  depends_on: string[];
+  source_refs: string[];
+  notes: string;
+}
+
+export interface MigrationPhase {
+  key: string;
+  title: string;
+  sequence: number;
+  components: string[];
+  effort_person_weeks: number;
+  duration_weeks: number;
+  start_week: number;
+  end_week: number;
+}
+
+export interface MigrationCheck {
+  name: string;
+  passed: boolean;
+  detail: string;
+}
+
+export interface MigrationPlan {
+  plan_id: string;
+  task_id: string;
+  document_id: string;
+  file_name: string;
+  source_type: MigrationSourceType;
+  target_platform: string;
+  page_count: number;
+  status: TaskStatus;
+  extraction_method: 'keyword' | 'gemini' | 'codebase_inventory';
+  narrative_source: 'template' | 'gemini';
+  components: MigrationComponent[];
+  plan: {
+    phases: MigrationPhase[];
+    component_order: string[];
+    dependencies: Record<string, string[]>;
+    total_weeks: number;
+    total_effort_person_weeks: number;
+    team_size: number;
+    risk_buffer_pct: number;
+    warnings: string[];
+  };
+  narrative: {
+    summary: string;
+    phase_notes: Record<string, { rationale: string; risks: string[] }>;
+    assumptions: string[];
+  };
+  checks: MigrationCheck[];
+  warnings: string[];
+  created_by: string;
+  created_at: string;
+}

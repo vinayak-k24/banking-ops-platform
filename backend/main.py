@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import approvals, copilot, operations, tasks
+from api import approvals, copilot, migration, operations, tasks
 from config import get_settings
 from services.firestore_store import MemoryStore, get_store
 
@@ -19,7 +19,7 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
-for module in (operations, tasks, approvals, copilot):
+for module in (operations, tasks, approvals, copilot, migration):
     app.include_router(module.router)
 
 

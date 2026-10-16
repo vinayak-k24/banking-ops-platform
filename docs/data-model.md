@@ -20,6 +20,11 @@ All pages share one synthetic dataset. Static seed data lives in `backend/mock_d
 | agent_tasks | task_id | workflow, status, steps, context, result, approval_id | runtime |
 | approvals | approval_id | task_id, action, parameters, required_role, decision, reviewer | runtime |
 | audit_events | event_id | actor, action, target, outcome, related_task_id, details | runtime |
+| migration_documents | document_id | file_name, source_type, size_bytes, storage_uri, status, page_count, embedding_method, plan_id | runtime |
+| migration_chunks | chunk_id | document_id, index, page_start, page_end, text, embedding | runtime |
+| migration_plans | plan_id | task_id, document_id, status, components, plan (phases, timeline), narrative, checks, warnings | runtime |
+
+Uploaded files are stored in Cloud Storage under `gs://$GCS_BUCKET/migration/<document_id>/` when `GCS_BUCKET` is set, otherwise in `backend/uploads/` (gitignored).
 
 Database snapshots are ordered by `seq`, not timestamp, because simulated actions add snapshots with wall-clock time.
 

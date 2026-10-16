@@ -137,3 +137,37 @@ class CopilotRequest(BaseModel):
 
 class ExportRequest(BaseModel):
     type: str = Field(default="Report", max_length=80)
+
+
+# ---- Migration planner ----
+
+class ComponentType(str, Enum):
+    """Migration order follows this sequence unless dependencies push a component later."""
+
+    INFRASTRUCTURE = "infrastructure"
+    DATABASE = "database"
+    DATA = "data"
+    QUERY = "query"
+    APPLICATION = "application"
+    INTEGRATION = "integration"
+    BATCH = "batch"
+
+
+class MigrationComponent(BaseModel):
+    """One migratable unit extracted from an uploaded document or codebase summary."""
+
+    id: str = Field(min_length=1, max_length=80, pattern=r"^[a-z0-9][a-z0-9_\-]*$")
+    name: str = Field(min_length=1, max_length=160)
+    type: ComponentType
+    size: str = Field(pattern="^(S|M|L|XL)$")
+    complexity: str = Field(pattern="^(low|medium|high)$")
+    depends_on: list[str] = Field(default=[], max_length=50)
+    source_refs: list[str] = Field(default=[], max_length=20)
+    notes: str = Field(default="", max_length=500)
+
+
+class MigrationUploadRequest(BaseModel):
+    source_type: str = Field(default="document", pattern="^(document|codebase_summary)$")
+    target_platform: str = Field(default="Google Cloud", min_length=1, max_length=80)
+    team_size: int = Field(default=5, ge=1, le=50)
+    actor: str = Field(default="migration", min_length=1, max_length=64)

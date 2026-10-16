@@ -28,6 +28,9 @@ COLLECTIONS = [
     "agent_tasks",
     "approvals",
     "audit_events",
+    "migration_documents",
+    "migration_chunks",
+    "migration_plans",
 ]
 
 # Primary key field for each collection.
@@ -46,6 +49,9 @@ ID_FIELDS = {
     "agent_tasks": "task_id",
     "approvals": "approval_id",
     "audit_events": "event_id",
+    "migration_documents": "document_id",
+    "migration_chunks": "chunk_id",
+    "migration_plans": "plan_id",
 }
 
 

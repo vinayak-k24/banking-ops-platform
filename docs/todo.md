@@ -13,7 +13,8 @@ Order follows the implementation phases in the functional specification.
 - [x] `incident_response` workflow
 - [x] Server-side approval rules and audit trail
 - [x] Frontend `/api` proxy to backend; Dockerfiles for both services; docker-compose
-- [x] Backend tests (8 passing)
+- [x] Backend tests (23 passing)
+- [x] Migration planner on page 6: document upload (PDF/DOCX/MD/TXT) or IDE-agent codebase summary → indexed evidence → deterministic phased plan with verification → Markdown/PDF report
 
 ## Phase 1–2: Data wiring and flagship scenario
 
@@ -48,6 +49,8 @@ Order follows the implementation phases in the functional specification.
 
 - [ ] Page 8: forecasts (capacity, queue, SLA), preventive task creation, forecast vs actual
 - [ ] Page 6: module inventory, dependency graph, sandbox test results, stage promotion with approval
+- [ ] Migration planner: test the Gemini extraction/embedding path with `AGENTS_ENABLED=true`; OCR for scanned PDFs (currently fails with "No extractable text"); list past plans in the UI
+- [ ] Migration planner on Cloud Run: background planning runs after the HTTP response, so enable "CPU always allocated" or move it to Cloud Tasks / a Cloud Run job; for very large corpora consider Firestore vector search instead of in-process cosine
 
 ## Phase 7: Gemini, hardening and demo
 

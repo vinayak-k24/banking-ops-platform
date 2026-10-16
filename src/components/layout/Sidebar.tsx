@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MODULES } from '@/lib/modules';
@@ -13,9 +14,10 @@ export default function Sidebar() {
     <aside className="w-16 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200/80 flex flex-col items-center py-4 justify-between shrink-0 shadow-sm z-20">
       <Link
         href="/ops"
-        className="w-10 h-10 rounded-full bg-gradient-to-tr from-coralRed to-rose-500 flex items-center justify-center text-white font-black text-lg shadow-md shadow-coralRed/30 cursor-pointer hover:scale-105 transition-transform"
+        title="OpsAegis"
+        className="w-11 h-11 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
       >
-        <i className="fa-solid fa-shapes" />
+        <Image src="/logo-mark.png" alt="OpsAegis" width={44} height={44} priority />
       </Link>
 
       <nav className="flex flex-col space-y-2.5 my-auto">

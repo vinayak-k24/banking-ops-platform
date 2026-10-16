@@ -64,6 +64,19 @@ POST /api/approvals/APR-…/decision
 → 200 { "approval": { "decision": "APPROVED", … }, "task": { "status": "SUCCEEDED", "result": { "checks": { … } } } }
 ```
 
+## Migration planner (Page 6)
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/api/migration/codebase-prompt` | `{prompt, file_name}`: prompt for an IDE agent that writes `MIGRATION_CONTEXT.md` |
+| POST | `/api/migration/documents` | Multipart upload: `file` (pdf, docx, md, txt; max 50 MB / 1500 pages), `source_type` (`document` or `codebase_summary`), `target_platform`, `team_size` (1-50), `actor`. Returns 202 `{document, task}`; the `migration_planning` workflow runs in the background, so poll `/api/tasks/{task_id}` |
+| GET | `/api/migration/documents` | Uploaded documents (storage URI not exposed) |
+| GET | `/api/migration/plans?task_id=` | Plan summaries |
+| GET | `/api/migration/plans/{plan_id}` | Full plan: components, phases, timeline, narrative, checks |
+| GET | `/api/migration/plans/{plan_id}/report?format=md\|pdf` | Download the report as Markdown or PDF (audited) |
+
+Errors: 413 file too large, 415 unsupported type, 422 invalid form fields.
+
 ## Copilot and export
 
 | Method | Path | Description |

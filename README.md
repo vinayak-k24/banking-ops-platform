@@ -6,6 +6,9 @@ Google ADK / Gemini agents against a simulated banking environment. **Synthetic 
 Full documentation is in [docs/](docs/README.md): architecture, agents and tools, API, data model,
 pages, Google Cloud services mapping, deployment (GitHub + Cloud Run), and the TODO list.
 
+AI coding assistants: project rules are in [AGENTS.md](AGENTS.md) (also picked up via `CLAUDE.md`,
+`GEMINI.md`, `.github/copilot-instructions.md`, `.cursor/rules/`, `.agent/rules/`).
+
 ## Project structure
 
 ```

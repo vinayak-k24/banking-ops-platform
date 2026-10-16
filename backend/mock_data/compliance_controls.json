@@ -1,0 +1,53 @@
+[
+  {
+    "control_id": "CTL-AML-01",
+    "category": "AML",
+    "description": "Daily suspicious activity review",
+    "owner": "aml-team",
+    "status": "PASSED",
+    "evidence_refs": [
+      "EV-101"
+    ],
+    "due_date": "2026-10-31"
+  },
+  {
+    "control_id": "CTL-AML-02",
+    "category": "AML",
+    "description": "Sanctions screening tuning review",
+    "owner": "aml-team",
+    "status": "GAP",
+    "evidence_refs": [],
+    "due_date": "2026-10-20"
+  },
+  {
+    "control_id": "CTL-KYC-01",
+    "category": "KYC",
+    "description": "Periodic KYC refresh for high-risk clients",
+    "owner": "kyc-ops",
+    "status": "PASSED",
+    "evidence_refs": [
+      "EV-204"
+    ],
+    "due_date": "2026-11-15"
+  },
+  {
+    "control_id": "CTL-GDPR-01",
+    "category": "GDPR",
+    "description": "Data retention purge evidence",
+    "owner": "privacy",
+    "status": "OVERDUE",
+    "evidence_refs": [],
+    "due_date": "2026-10-10"
+  },
+  {
+    "control_id": "CTL-CHG-01",
+    "category": "Change",
+    "description": "Production change approvals recorded",
+    "owner": "itsm",
+    "status": "PASSED",
+    "evidence_refs": [
+      "EV-330"
+    ],
+    "due_date": "2026-10-30"
+  }
+]

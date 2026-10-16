@@ -1,0 +1,65 @@
+[
+  {
+    "snapshot_id": "SNAP-000",
+    "database_id": "DB2_MAIN",
+    "seq": 0,
+    "day": 0,
+    "allocated_gb": 10240.0,
+    "used_gb": 7963.5,
+    "timestamp": "2026-10-10T09:00:00+00:00"
+  },
+  {
+    "snapshot_id": "SNAP-001",
+    "database_id": "DB2_MAIN",
+    "seq": 1,
+    "day": 1,
+    "allocated_gb": 10240.0,
+    "used_gb": 8083.5,
+    "timestamp": "2026-10-11T09:00:00+00:00"
+  },
+  {
+    "snapshot_id": "SNAP-002",
+    "database_id": "DB2_MAIN",
+    "seq": 2,
+    "day": 2,
+    "allocated_gb": 10240.0,
+    "used_gb": 8203.5,
+    "timestamp": "2026-10-12T09:00:00+00:00"
+  },
+  {
+    "snapshot_id": "SNAP-003",
+    "database_id": "DB2_MAIN",
+    "seq": 3,
+    "day": 3,
+    "allocated_gb": 10240.0,
+    "used_gb": 8323.5,
+    "timestamp": "2026-10-13T09:00:00+00:00"
+  },
+  {
+    "snapshot_id": "SNAP-004",
+    "database_id": "DB2_MAIN",
+    "seq": 4,
+    "day": 4,
+    "allocated_gb": 10240.0,
+    "used_gb": 8443.5,
+    "timestamp": "2026-10-14T09:00:00+00:00"
+  },
+  {
+    "snapshot_id": "SNAP-005",
+    "database_id": "DB2_MAIN",
+    "seq": 5,
+    "day": 5,
+    "allocated_gb": 10240.0,
+    "used_gb": 8563.5,
+    "timestamp": "2026-10-15T09:00:00+00:00"
+  },
+  {
+    "snapshot_id": "SNAP-006",
+    "database_id": "DB2_MAIN",
+    "seq": 6,
+    "day": 6,
+    "allocated_gb": 10240.0,
+    "used_gb": 8683.5,
+    "timestamp": "2026-10-16T09:00:00+00:00"
+  }
+]

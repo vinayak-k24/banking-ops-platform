@@ -1,0 +1,28 @@
+[
+  {
+    "incident_id": "INC-1001",
+    "title": "SWIFT outbound delay",
+    "severity": "P2",
+    "service_id": "SWIFT_GATEWAY",
+    "status": "INVESTIGATING",
+    "owner": "sre-oncall",
+    "evidence": [
+      "Queue time > 180s"
+    ],
+    "created_at": "2026-10-16T06:00:00+00:00",
+    "updated_at": "2026-10-16T08:00:00+00:00"
+  },
+  {
+    "incident_id": "INC-1002",
+    "title": "Mobile login latency",
+    "severity": "P3",
+    "service_id": "MOBILE_API",
+    "status": "RESOLVED",
+    "owner": "app-support",
+    "evidence": [
+      "p95 latency 900ms for 12 min"
+    ],
+    "created_at": "2026-10-15T09:00:00+00:00",
+    "updated_at": "2026-10-15T13:00:00+00:00"
+  }
+]

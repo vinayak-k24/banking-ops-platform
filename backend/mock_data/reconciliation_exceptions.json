@@ -1,0 +1,52 @@
+[
+  {
+    "exception_id": "EXC-0011",
+    "reference_id": "TXN-00011",
+    "source_system": "SETTLEMENT",
+    "expected_amount": 18276.95,
+    "actual_amount": 18311.95,
+    "reason": "AMOUNT_MISMATCH",
+    "status": "OPEN",
+    "created_at": "2026-10-16T07:48:00+00:00"
+  },
+  {
+    "exception_id": "EXC-0022",
+    "reference_id": "TXN-00022",
+    "source_system": "SETTLEMENT",
+    "expected_amount": 5295.11,
+    "actual_amount": 5330.11,
+    "reason": "AMOUNT_MISMATCH",
+    "status": "OPEN",
+    "created_at": "2026-10-16T06:31:00+00:00"
+  },
+  {
+    "exception_id": "EXC-0033",
+    "reference_id": "TXN-00033",
+    "source_system": "SETTLEMENT",
+    "expected_amount": 3565.16,
+    "actual_amount": 4545.41,
+    "reason": "AMOUNT_MISMATCH",
+    "status": "OPEN",
+    "created_at": "2026-10-16T05:14:00+00:00"
+  },
+  {
+    "exception_id": "EXC-0044",
+    "reference_id": "TXN-00044",
+    "source_system": "SETTLEMENT",
+    "expected_amount": 12683.65,
+    "actual_amount": 13663.9,
+    "reason": "AMOUNT_MISMATCH",
+    "status": "OPEN",
+    "created_at": "2026-10-16T03:57:00+00:00"
+  },
+  {
+    "exception_id": "EXC-0055",
+    "reference_id": "TXN-00055",
+    "source_system": "SETTLEMENT",
+    "expected_amount": 20462.4,
+    "actual_amount": 21442.65,
+    "reason": "AMOUNT_MISMATCH",
+    "status": "OPEN",
+    "created_at": "2026-10-16T02:40:00+00:00"
+  }
+]

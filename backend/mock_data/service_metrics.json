@@ -1,0 +1,51 @@
+[
+  {
+    "service_id": "CORE_LEDGER",
+    "name": "Core Ledger",
+    "latency_ms": 88,
+    "error_rate": 0.02,
+    "availability": 99.99,
+    "dependencies": [
+      "DB2_MAIN"
+    ]
+  },
+  {
+    "service_id": "SWIFT_GATEWAY",
+    "name": "SWIFT Gateway",
+    "latency_ms": 210,
+    "error_rate": 0.3,
+    "availability": 99.95,
+    "dependencies": [
+      "CORE_LEDGER"
+    ]
+  },
+  {
+    "service_id": "PAYMENT_API",
+    "name": "Payment API",
+    "latency_ms": 412,
+    "error_rate": 2.4,
+    "availability": 99.71,
+    "dependencies": [
+      "DB2_MAIN",
+      "CORE_LEDGER"
+    ]
+  },
+  {
+    "service_id": "MOBILE_API",
+    "name": "Mobile Banking API",
+    "latency_ms": 142,
+    "error_rate": 0.1,
+    "availability": 99.89,
+    "dependencies": [
+      "PAYMENT_API"
+    ]
+  },
+  {
+    "service_id": "DB2_MAIN",
+    "name": "Mainframe Db2 Cluster",
+    "latency_ms": 35,
+    "error_rate": 0.4,
+    "availability": 99.97,
+    "dependencies": []
+  }
+]

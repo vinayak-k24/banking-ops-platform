@@ -1,0 +1,35 @@
+[
+  {
+    "job_id": "ARC_FIN_901",
+    "database_id": "DB2_MAIN",
+    "target_table": "HIST_TRANS_2025",
+    "status": "COMPLETED",
+    "last_run": "2026-10-16T10:14:00+00:00",
+    "duration_s": 860,
+    "records_processed": 450000,
+    "error_count": 0,
+    "last_error": null
+  },
+  {
+    "job_id": "ARC_SWIFT_2026",
+    "database_id": "DB2_MAIN",
+    "target_table": "SWIFT_OUTBOUND_QUEUE",
+    "status": "LOCK_DELAY",
+    "last_run": "2026-10-16T09:30:00+00:00",
+    "duration_s": 2530,
+    "records_processed": 14200,
+    "error_count": 3,
+    "last_error": "SQLCODE -911 deadlock or timeout on SWIFT_IDX_02"
+  },
+  {
+    "job_id": "ARC_LOAN_118",
+    "database_id": "DB2_MAIN",
+    "target_table": "LOAN_EVENTS_2024",
+    "status": "DELAYED",
+    "last_run": "2026-10-16T03:00:00+00:00",
+    "duration_s": 0,
+    "records_processed": 0,
+    "error_count": 1,
+    "last_error": "Waiting on predecessor ARC_SWIFT_2026"
+  }
+]

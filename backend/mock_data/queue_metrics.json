@@ -1,0 +1,16 @@
+[
+  {
+    "queue_id": "ARCHIVAL_QUEUE",
+    "backlog": 1240,
+    "arrival_rate_per_min": 42,
+    "processing_rate_per_min": 31,
+    "avg_wait_min": 42.5
+  },
+  {
+    "queue_id": "SWIFT_OUTBOUND",
+    "backlog": 380,
+    "arrival_rate_per_min": 18,
+    "processing_rate_per_min": 17,
+    "avg_wait_min": 3.0
+  }
+]

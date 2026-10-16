@@ -1,0 +1,50 @@
+[
+  {
+    "log_id": "LOG-0001",
+    "component": "DB2_MAIN",
+    "severity": "ERROR",
+    "message": "SQLCODE -911 deadlock on SWIFT_IDX_02 during archival",
+    "correlation_id": "ARC_SWIFT_2026",
+    "timestamp": "2026-10-16T08:32:00+00:00"
+  },
+  {
+    "log_id": "LOG-0002",
+    "component": "DB2_MAIN",
+    "severity": "WARN",
+    "message": "Tablespace TS_HIST at 91% of allocated pages",
+    "correlation_id": null,
+    "timestamp": "2026-10-16T08:35:00+00:00"
+  },
+  {
+    "log_id": "LOG-0003",
+    "component": "DB2_MAIN",
+    "severity": "ERROR",
+    "message": "Archival job ARC_LOAN_118 blocked: predecessor not complete",
+    "correlation_id": "ARC_LOAN_118",
+    "timestamp": "2026-10-16T08:40:00+00:00"
+  },
+  {
+    "log_id": "LOG-0004",
+    "component": "PAYMENT_API",
+    "severity": "ERROR",
+    "message": "Connection pool exhausted (max=200) waiting for DB2_MAIN",
+    "correlation_id": "REQ-77812",
+    "timestamp": "2026-10-16T08:45:00+00:00"
+  },
+  {
+    "log_id": "LOG-0005",
+    "component": "PAYMENT_API",
+    "severity": "WARN",
+    "message": "p95 latency 412ms above SLO 300ms",
+    "correlation_id": null,
+    "timestamp": "2026-10-16T08:46:00+00:00"
+  },
+  {
+    "log_id": "LOG-0006",
+    "component": "SWIFT_GATEWAY",
+    "severity": "WARN",
+    "message": "Outbound queue wait 184s",
+    "correlation_id": null,
+    "timestamp": "2026-10-16T08:20:00+00:00"
+  }
+]

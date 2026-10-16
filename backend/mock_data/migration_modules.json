@@ -1,0 +1,90 @@
+[
+  {
+    "module_id": "COB-000",
+    "name": "INTCALC",
+    "source_language": "COBOL",
+    "target_language": "Java",
+    "stage": "DISCOVERY",
+    "complexity": "LOW",
+    "dependencies": [],
+    "test_status": "FAIL"
+  },
+  {
+    "module_id": "COB-001",
+    "name": "LOANAMRT",
+    "source_language": "COBOL",
+    "target_language": "Java",
+    "stage": "ANALYZED",
+    "complexity": "LOW",
+    "dependencies": [
+      "COB-000"
+    ],
+    "test_status": "NOT_RUN"
+  },
+  {
+    "module_id": "COB-002",
+    "name": "STMTGEN",
+    "source_language": "COBOL",
+    "target_language": "Java",
+    "stage": "CONVERTED",
+    "complexity": "HIGH",
+    "dependencies": [],
+    "test_status": "NOT_RUN"
+  },
+  {
+    "module_id": "COB-003",
+    "name": "FEEPOST",
+    "source_language": "COBOL",
+    "target_language": "Java",
+    "stage": "TESTED",
+    "complexity": "HIGH",
+    "dependencies": [
+      "COB-000"
+    ],
+    "test_status": "PASS"
+  },
+  {
+    "module_id": "COB-004",
+    "name": "ACCTOPEN",
+    "source_language": "COBOL",
+    "target_language": "Java",
+    "stage": "APPROVED",
+    "complexity": "MEDIUM",
+    "dependencies": [],
+    "test_status": "PASS"
+  },
+  {
+    "module_id": "COB-005",
+    "name": "SWIFTMAP",
+    "source_language": "COBOL",
+    "target_language": "Java",
+    "stage": "DEPLOYED",
+    "complexity": "HIGH",
+    "dependencies": [
+      "COB-004"
+    ],
+    "test_status": "PASS"
+  },
+  {
+    "module_id": "COB-006",
+    "name": "GLPOST",
+    "source_language": "COBOL",
+    "target_language": "Java",
+    "stage": "DISCOVERY",
+    "complexity": "MEDIUM",
+    "dependencies": [
+      "COB-003"
+    ],
+    "test_status": "NOT_RUN"
+  },
+  {
+    "module_id": "COB-007",
+    "name": "DORMANCY",
+    "source_language": "COBOL",
+    "target_language": "Java",
+    "stage": "ANALYZED",
+    "complexity": "HIGH",
+    "dependencies": [],
+    "test_status": "NOT_RUN"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "system_id": "DB2_MAIN",
+    "name": "Mainframe Db2 Cluster",
+    "type": "database",
+    "environment": "demo",
+    "health": "DEGRADED"
+  },
+  {
+    "system_id": "CORE_LEDGER",
+    "name": "Core Ledger",
+    "type": "application",
+    "environment": "demo",
+    "health": "HEALTHY"
+  },
+  {
+    "system_id": "SWIFT_GATEWAY",
+    "name": "SWIFT Gateway",
+    "type": "integration",
+    "environment": "demo",
+    "health": "WARNING"
+  },
+  {
+    "system_id": "PAYMENT_API",
+    "name": "Payment API",
+    "type": "api",
+    "environment": "demo",
+    "health": "DEGRADED"
+  },
+  {
+    "system_id": "MOBILE_API",
+    "name": "Mobile Banking API",
+    "type": "api",
+    "environment": "demo",
+    "health": "HEALTHY"
+  },
+  {
+    "system_id": "BATCH_SCHEDULER",
+    "name": "Batch Scheduler",
+    "type": "batch",
+    "environment": "demo",
+    "health": "HEALTHY"
+  }
+]

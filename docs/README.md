@@ -2,6 +2,7 @@
 
 | Document | Contents |
 |---|---|
+| [presentation.md](presentation.md) | End-to-end overview for presenting: how it works, worked storyline, done vs pending |
 | [architecture.md](architecture.md) | System layers, request flow, frontend and backend structure, design principles |
 | [agents-and-tools.md](agents-and-tools.md) | ADK agents, mock tools, workflows, task lifecycle, approval rules |
 | [api-reference.md](api-reference.md) | Backend HTTP endpoints with request/response examples |
